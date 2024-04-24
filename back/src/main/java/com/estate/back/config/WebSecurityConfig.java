@@ -11,6 +11,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 // Spring Web Security 설정
 // - Basic 인증 미사용
@@ -21,7 +22,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig {
-
+    
     @Bean
     protected SecurityFilterChain configure(HttpSecurity httpSecurity) throws Exception {
 
@@ -31,19 +32,28 @@ public class WebSecurityConfig {
             .sessionManagement(sessionManagement -> sessionManagement
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             )
-            .cors(cors -> cors.configurationSource(corConfigurationSource())
+            .cors(cors -> cors
+                .configurationSource(corsConfigurationSource())
             );
 
-            return httpSecurity.build(); 
-        }
+        return httpSecurity.build();
 
-    // Cors 설정
+    }
+
+    // Cors 정책 설정
     @Bean
-    protected CorsConfigurationSource corConfigurationSource() {
+    protected CorsConfigurationSource corsConfigurationSource() {
 
-        CorsConfiguration configuration = new CorConfiguration();
+        CorsConfiguration configuration = new CorsConfiguration();
         configuration.addAllowedOrigin("*");
         configuration.addAllowedHeader("*");
         configuration.addAllowedMethod("*");
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+
+        return source;
+
     }
+
 }
