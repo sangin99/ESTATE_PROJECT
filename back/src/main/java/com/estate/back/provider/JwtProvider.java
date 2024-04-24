@@ -24,10 +24,11 @@ public class JwtProvider {
     
     @Value("${jwt.secret-key}")
     private String secretKey;
-    private Key key = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
 
     // Jwt 생성 메서드
     public String create (String userId) {
+
+        Key key = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
 
         // 만료시간 = 현재시간 + 10시간
         Date expiredDate = Date.from(Instant.now().plus(10, ChronoUnit.HOURS));
@@ -46,6 +47,7 @@ public class JwtProvider {
     public String validate (String jwt) {
 
         String userId = null;  // 반환할 변수만들기
+        Key key = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
 
         try{
             userId = Jwts.parserBuilder()
