@@ -14,14 +14,14 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class AuthServiceImplementation implements AuthService {
+public class AuthServiceImplimentation implements AuthService {
 
     private final UserRepository userRepository;
 
     @Override
     public ResponseEntity<ResponseDto> idCheck(IdCheckRequestDto dto) {
         
-        try { 
+        try {
 
             String userId = dto.getUserId();
             boolean existedUser = userRepository.existsByUserId(userId);
@@ -33,6 +33,7 @@ public class AuthServiceImplementation implements AuthService {
         }
 
         return ResponseDto.success();
+
     }
     
 }
