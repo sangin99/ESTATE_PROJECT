@@ -19,4 +19,8 @@ public class EmailAuthNumberEntity {
     @Id
     private String email;
     private String authnumber;
+    public static String createNumber() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'createNumber'");
+    }
 }
