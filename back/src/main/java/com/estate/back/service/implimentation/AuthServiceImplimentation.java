@@ -12,6 +12,7 @@ import com.estate.back.dto.request.auth.SignInRequestDto;
 import com.estate.back.dto.request.auth.SignUpRequestDto;
 import com.estate.back.entity.EmailAuthNumberEntity;
 import com.estate.back.provider.MailProvider;
+import com.estate.back.provider.MailProvider;
 import com.estate.back.repository.EmailAuthNumberRepository;
 import com.estate.back.repository.UserRepository;
 import com.estate.back.service.AuthService;
@@ -75,6 +76,13 @@ public class AuthServiceImplimentation implements AuthService {
             return ResponseDto.databaseError();
         }
 
+        try {
+            mailProvider.mailAuthSend(null, null);
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.mailSendFailed();
+        }
         return ResponseDto.success();
     }
 
