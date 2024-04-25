@@ -10,10 +10,12 @@ import com.estate.back.dto.request.auth.IdCheckRequestDto;
 import com.estate.back.dto.request.auth.SignInRequestDto;
 import com.estate.back.dto.request.auth.SignUpRequestDto;
 import com.estate.back.entity.EmailAuthNumberEntity;
+import com.estate.back.provider.MailProvider;
 import com.estate.back.repository.EmailAuthNumberRepository;
 import com.estate.back.repository.UserRepository;
 import com.estate.back.service.AuthService;
 
+import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 
 // Auth 모듈의 비즈니스 로직 구현체
@@ -24,6 +26,7 @@ public class AuthServiceImplimentation implements AuthService {
 
     private final UserRepository userRepository;
     private final EmailAuthNumberRepository emailAuthNumberRepository;
+    private final MailProvider mailProvider;
 
     @Override
     public ResponseEntity<ResponseDto> idCheck(IdCheckRequestDto dto) {
@@ -60,10 +63,23 @@ public class AuthServiceImplimentation implements AuthService {
 
             EmailAuthNumberEntity emailAuthNumberEntity = new EmailAuthNumberEntity(userEmail, authNumber);
             emailAuthNumberRepository.save(emailAuthNumberEntity);
+
+            mailProvider.mailAuthSend(userEmail, authNumber);
             
+        } catch (MessagingException exception) {
+            exception.printStackTrace();
+            return ResponseDto.mailSendFailed();
         } catch (Exception exception) {
             exception.printStackTrace();
             return ResponseDto.databaseError();
+        }
+
+        try {
+            mailProvider.mailAuthSend(null, null);
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.mailSendFailed();
         }
         return ResponseDto.success();
     }
