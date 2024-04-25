@@ -87,8 +87,18 @@ public class AuthServiceImplimentation implements AuthService {
 
     @Override
     public ResponseEntity<ResponseDto> emailAuthCheck(EmailAuthCheckRequestDto dto) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'emailAuthCheck'");
+        try {
+            String userEmail = dto.getUserEmail();
+            String authNumber = dto.getAuthNumber();
+
+            boolean isMatched = emailAuthNumberRepository.existsByEmailAndAuthNumber(userEmail, authNumber);
+            if (!isMatched) return ResponseDto.authenticationFailed();
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+        return ResponseDto.success();
     }
 
     @Override
