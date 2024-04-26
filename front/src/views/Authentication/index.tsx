@@ -1,9 +1,12 @@
 import React, { ChangeEvent, useState } from "react";
 import "./style.css";
 
-import SignInBackground from 'assets/image/sign-in-background.png';
-import SignUpBackground from 'assets/image/sign-up-background.png';
-import InputBox from "components/Inputbox";
+import SignInBackground from 'src/assets/image/sign-in-background.png';
+import SignUpBackground from 'src/assets/image/sign-up-background.png';
+import InputBox from "src/components/Inputbox";
+import { IdCheckRequestDto } from "src/apis/auth/dto/request";
+import { IdCheckRequest } from "src/apis/auth";
+import ResponseDto from "src/apis/response.dto";
 
 //                    type                    //
 type AuthPage = 'sign-in' | 'sign-up';
@@ -127,6 +130,41 @@ function SignUp({ onLinkClickHandler }: Props) {
     const isSignUpActive = isIdCheck && isEmailCheck && isAuthNumberCheck && isPasswordPattern && isEqualPassword;
     const signUpButtonClass = `${isSignUpActive ? 'primary' : 'disable'}-button full-width`;
 
+    //                    function                    //
+    const idCheckResponse = (result : ResponseDto | null) => {
+        if (!result) {
+            setIdMessage('서버에 문제가 있습니다.');
+            setIdError(true);
+            setIdCheck(false);
+            return;
+        }
+        const { code } = result;
+        if (code === 'VF') {
+            setIdMessage('아이디는 빈값 혹은 공백으로만 이루어질 수 없습니다.');
+            setIdError(true);
+            setIdCheck(false);
+            return;
+        }
+        if (code ==='DI') {
+            setIdMessage('이미 사용중인 아이디 입니다.');
+            setIdError(true);
+            setIdCheck(false);
+            return;
+        }
+        if (code === 'DBE') {
+            setIdMessage('서버에 문제가 있습니다.');
+            setIdError(true);
+            setIdCheck(false);
+            return;
+        }
+        if (code === 'SU') {
+            setIdError(false);
+            setIdCheck(true);
+            setIdMessage('사용 가능한 아이디 입니다.')
+            return;
+        }
+    };
+
     //                    event handler                    //
     const onIdChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
         const { value } = event.target;
@@ -190,13 +228,10 @@ function SignUp({ onLinkClickHandler }: Props) {
 
     const onIdButtonClickHandler = () => {
         if(!idButtonStatus) return;
+        if(!id || !id.trim()) return;     //? trim() : 앞 뒤 공백을 제거해주는 명령어
 
-        const idCheck = id !== 'admin';
-        setIdCheck(idCheck);
-        setIdError(!idCheck);
-
-        const idMessage = idCheck ? '사용 가능한 아이디입니다.' : '이미 사용중인 아이디입니다.';
-        setIdMessage(idMessage);
+        const requestBody: IdCheckRequestDto = { userId: id };
+        IdCheckRequest(requestBody).then(idCheckResponse);    //? async 가 걸려있는 함수에 .then() : 앞으로 것이 끝나고 나면 then(**) **을 실행해라
     };
 
     const onEmailButtonClickHandler = () => {
@@ -263,7 +298,7 @@ function SignUp({ onLinkClickHandler }: Props) {
 export default function Authentication() {
 
     //                    state                    //
-    const [page, setPage] = useState<AuthPage>('sign-in');
+    const [page, setPage] = useState<AuthPage>('sign-up');
 
     //                    event handler                    //
     const onLinkClickHandler = () => {

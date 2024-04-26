@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './App.css';
-import { Routes, Route } from 'react-router';
+import { Routes, Route, useNavigate } from 'react-router';
 import { AUTH_PATH, LOCAL_PATH,  RATIO_PATH, SERVICE_PATH,
-QNA_UPDATE_PATH, QNA_WRITE_PATH, QNA_DETAIL_PATH as QNA_DETAIL_PATH, QNA_PATH } from './constant';
+QNA_UPDATE_PATH, QNA_WRITE_PATH, QNA_DETAIL_PATH as QNA_DETAIL_PATH, QNA_PATH, 
+LOCAL_ABSOLUTE_PATH,
+AUTH_ABSOLUTE_PATH} from './constant';
 import Authentication from './views/Authentication';
 import ServiceContainer from './layouts/ServiceContainer';
 import Local from './views/service/Local';
@@ -12,10 +14,35 @@ import QnaWrite from './views/service/qna/QnaWrite';
 import QnaDetail from './views/service/qna/QnaDetail';
 import QnaUpdate from './views/service/qna/QnaUpdate';
 import NotFound from './views/NotFound';
-        
+import { useCookies } from 'react-cookie';
+
+//      component : root 경로 컴포넌트      //
+function Index () {
+
+  //      state      //
+  const [cookies] = useCookies();
+
+  //      function      //
+  const navigator = useNavigate();
+
+  //      effect      //
+  useEffect(() => {
+    const accessToken = cookies.accessToken;
+    if (accessToken) navigator (LOCAL_ABSOLUTE_PATH)
+    else navigator (AUTH_ABSOLUTE_PATH)
+  }, []);
+
+  //      render      //
+  return <></>
+}
+
+//      component : Application 컴포넌트      //
 function App() {
+
+//      render      //
   return (        //todo/ 컴포넌트 return 시, () 가 바로 뒤에 붙어와야함
     <Routes>
+      <Route index element={<Index />} />
       <Route path={AUTH_PATH} element={<Authentication />} />
       <Route path={SERVICE_PATH} element={<ServiceContainer />} >
         <Route path={LOCAL_PATH} element={<Local />} />
