@@ -105,14 +105,7 @@ public class AuthServiceImplimentation implements AuthService {
             exception.printStackTrace();
             return ResponseDto.databaseError();
         }
-
-        try {
-            mailProvider.mailAuthSend(null, null);
-
-        } catch (Exception exception) {
-            exception.printStackTrace();
-            return ResponseDto.mailSendFailed();
-        }
+        
         return ResponseDto.success();
     }
 
