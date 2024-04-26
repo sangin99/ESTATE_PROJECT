@@ -1,7 +1,7 @@
 import axios from "axios";
 import { EmailAuthCheckRequestDto, EmailAuthRequestDto, IdCheckRequestDto, SignInRequestDto, SignUpRequestDto } from "./dto/request";
 import { EMAIL_AUTH_CHECK_REQUEST_URL, EMAIL_AUTH_REQUEST_URL, ID_CHECK_REQUEST_URL, SIGN_IN_REQUEST_URL, SIGN_UP_REQUEST_URL } from "src/constant";
-import { SignInResponseDto } from "./dto/request/response";
+import { SignInResponseDto } from "./dto/response";
 import ResponseDto from "../response.dto";
 import { requestErrorHandler, requestHandler } from "..";
 
