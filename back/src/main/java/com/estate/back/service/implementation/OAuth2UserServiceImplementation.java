@@ -10,6 +10,7 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
+import com.estate.back.common.object.CustomOAuth2User;
 import com.estate.back.entity.EmailAuthNumberEntity;
 import com.estate.back.entity.UserEntity;
 import com.estate.back.repository.EmailAuthNumberRepository;
@@ -41,16 +42,16 @@ public class OAuth2UserServiceImplementation extends DefaultOAuth2UserService {
         // }
 
         String id = getId(oAuth2User, oauthClientName);    // 카카오, 네이버에서 지정하는 id
-        //ex) KAKAO_3458611654
-        //ex) NAVER_WrEPcdLrr0x
+        //ex) KAKAO_3458617600
+        //ex) NAVER_Hm-AO6BmNb
         String userId = oauthClientName + "_" + id.substring(0, 10);     // 내가 지정하는 id
 
         // userId 형태가 데이터에 존재하는지 검사
         boolean isExistUser = userRepository.existsByUserId(userId);
         if (!isExistUser) {
             
-            // ex) 3458611654@kakao.com
-            // ex) WrEPcdLrr0asdkLdhgawdb564RECS@naver.com
+            // ex) 3458617600@kakao.com
+            // ex) Hm-AO6BmNbJ2WnOTIfw-lmgA_cnTLrvhBDqPjHIa9Ys@naver.com
             String email = id + "@" + oauthClientName.toLowerCase() + ".com";
             String password = passwordEncoder.encode(id);
 
@@ -61,7 +62,7 @@ public class OAuth2UserServiceImplementation extends DefaultOAuth2UserService {
             userRepository.save(userEntity);
         }
 
-        return oAuth2User;
+        return new CustomOAuth2User(userId, oAuth2User.getAttributes());
     }
 
     private String getId(OAuth2User oAuth2User, String oauthClientName) {
