@@ -6,13 +6,13 @@ import ResponseDto from "../response.dto";
 import { requestErrorHandler, requestHandler } from "..";
 
 // function : 로그인 API 함수
-export const SignInRequest = async (requestBody: SignInRequestDto) => {
+export const signInRequest = async (requestBody: SignInRequestDto) => {
     const result = await axios.post(SIGN_IN_REQUEST_URL, requestBody)
         // .then(response => {
         //     const responseBody = response.data as SignInResponseDto;
         //     return responseBody;
         // }) //성공의 결과
-        .then(requestHandler<SignInRequestDto>)
+        .then(requestHandler<SignInResponseDto>)
         // .catch(error => {
         //     const responseBody = error.response;
         //     if (!responseBody) return null;

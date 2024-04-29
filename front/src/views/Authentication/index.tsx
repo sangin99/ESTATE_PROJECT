@@ -4,9 +4,13 @@ import "./style.css";
 import SignInBackground from 'src/assets/image/sign-in-background.png';
 import SignUpBackground from 'src/assets/image/sign-up-background.png';
 import InputBox from "src/components/Inputbox";
-import { EmailAuthCheckRequestDto, EmailAuthRequestDto, IdCheckRequestDto, SignUpRequestDto } from "src/apis/auth/dto/request";
-import { IdCheckRequest, emailAuthCheckRequest, emailAuthRequest, signUpRequest } from "src/apis/auth";
+import { EmailAuthCheckRequestDto, EmailAuthRequestDto, IdCheckRequestDto, SignInRequestDto, SignUpRequestDto } from "src/apis/auth/dto/request";
+import { IdCheckRequest, signInRequest, emailAuthCheckRequest, emailAuthRequest, signUpRequest } from "src/apis/auth";
 import ResponseDto from "src/apis/response.dto";
+import { SignInResponseDto } from "src/apis/auth/dto/response";
+import { useCookies } from "react-cookie";
+import { useNavigate } from "react-router";
+import { LOCAL_ABSOLUTE_PATH } from "src/constant";
 
 //                    type                    //
 type AuthPage = 'sign-in' | 'sign-up';
@@ -45,10 +49,37 @@ interface Props {
 function SignIn({ onLinkClickHandler }: Props) {
 
     //                    state                    //
+    const [cookies, setCookie] = useCookies();
+
     const [id, setId] = useState<string>('');
     const [password, setPassword] = useState<string>('');
 
     const [message, setMessage] = useState<string>('');
+
+    //                    function                    //
+    const navigator = useNavigate();
+
+    const signInResponse = (result: SignInResponseDto | ResponseDto | null) => {
+
+        const message = 
+            !result ? '서버에 문제가 있습니다.' :
+            result.code === 'VF' ? '아이디와 비밀번호를 모두 입력하세요.' :
+            result.code === 'SF' ? '로그인 정보가 일치하지 않습니다.' :
+            result.code === 'TF' ? '서버에 문제가 있습니다.' :
+            result.code === 'DBE' ? '서버에 문제가 있습니다.' :
+            '';
+        
+        setMessage(message);
+
+        const isSuccess = result && result.code === 'SU';
+        if (!isSuccess) return;
+
+        const { accessToken, expires } = result as SignInResponseDto;
+        const expiration = new Date(Date.now() + (expires * 1000));
+        setCookie('accessToken', accessToken, { expires : expiration});
+
+        navigator(LOCAL_ABSOLUTE_PATH);
+    };
 
     //                    event handler                    //
     const onIdChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
@@ -62,19 +93,17 @@ function SignIn({ onLinkClickHandler }: Props) {
     };
 
     const onSignInButtonClickHandler = () => {
-        const ID = 'service123';
-        const PASSWORD = 'qwer1234';
-
-        const isSuccess = id === ID && password === PASSWORD;
-
-        if (isSuccess) {
-            setId('');
-            setPassword('');
-            alert('로그인 성공!');
+        
+        if (!id || !password) {
+            setMessage('아이디와 비밀번호를 모두 입력하세요.');
+            return;
         }
-        else {
-            setMessage('로그인 정보가 일치하지 않습니다.');
-        }
+
+        const requestBody: SignInRequestDto = {
+            userId: id,
+            userPassword: password
+        };
+        signInRequest(requestBody).then(signInResponse);
 
     };
 
@@ -314,6 +343,8 @@ function SignUp({ onLinkClickHandler }: Props) {
         }
         signUpRequest(requestBody).then(signUpResponse);
     };
+
+
 
     //                    render                    //
     return (
