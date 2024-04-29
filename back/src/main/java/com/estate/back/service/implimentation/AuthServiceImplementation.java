@@ -29,7 +29,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class AuthServiceImplimentation implements AuthService {
+public class AuthServiceImplementation implements AuthService {
 
     private final UserRepository userRepository;
     private final EmailAuthNumberRepository emailAuthNumberRepository;
