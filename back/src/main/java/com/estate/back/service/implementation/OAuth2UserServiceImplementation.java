@@ -6,6 +6,8 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 @Service
 public class OAuth2UserServiceImplementation extends DefaultOAuth2UserService {
     
@@ -15,7 +17,21 @@ public class OAuth2UserServiceImplementation extends DefaultOAuth2UserService {
         OAuth2User oAuth2User = super.loadUser(userRequest);
         String oauthClientName = userRequest.getClientRegistration().getClientName().toUpperCase();
 
-        System.out.println(oauthClientName);
+        // System.out.println(oauthClientName);
+
+        // try {
+        //     System.out.println(new ObjectMapper().writeValueAsString(oAuth2User.getAttributes())
+        //     );
+        // } catch (Exception exception) {
+        //     exception.printStackTrace();
+        // }
+
+        if (oauthClientName.equals("KAKAO")) {
+
+        }
+        if (oauthClientName.equals("NAVER")) {
+            
+        }
 
         return oAuth2User;
     }
