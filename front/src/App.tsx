@@ -4,8 +4,9 @@ import { Routes, Route, useNavigate } from 'react-router';
 import { AUTH_PATH, LOCAL_PATH,  RATIO_PATH, SERVICE_PATH,
 QNA_UPDATE_PATH, QNA_WRITE_PATH, QNA_DETAIL_PATH as QNA_DETAIL_PATH, QNA_PATH, 
 LOCAL_ABSOLUTE_PATH,
-AUTH_ABSOLUTE_PATH} from './constant';
-import Authentication from './views/Authentication';
+AUTH_ABSOLUTE_PATH,
+SNS_PATH} from './constant';
+import Authentication, { Sns } from './views/Authentication';
 import ServiceContainer from './layouts/ServiceContainer';
 import Local from './views/service/Local';
 import Ratio from './views/service/Ratio';
@@ -43,6 +44,7 @@ function App() {
   return (        //todo/ 컴포넌트 return 시, () 가 바로 뒤에 붙어와야함
     <Routes>
       <Route index element={<Index />} />
+      <Route path={SNS_PATH} element={<Sns />} />
       <Route path={AUTH_PATH} element={<Authentication />} />
       <Route path={SERVICE_PATH} element={<ServiceContainer />} >
         <Route path={LOCAL_PATH} element={<Local />} />
