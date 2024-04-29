@@ -1,4 +1,4 @@
-package com.estate.back.service.implimentation;
+package com.estate.back.service.implementation;
 
 import org.aspectj.internal.lang.annotation.ajcDeclarePrecedence;
 import org.springframework.http.ResponseEntity;
