@@ -386,7 +386,7 @@ export default function Authentication() {
 
     //                    event handler                    //
     const onLinkClickHandler = () => {
-        if (page === 'sign-in') setPage('sign-up');
+        if (page === 'sign-in') setPage('sign-in');
         else setPage('sign-in');
     };
 
