@@ -128,7 +128,6 @@ export default function ServiceContainer() {
 
     }, [cookies.accessToken]);
 
-
     //                    render                    //
     return (
         <div id="wrapper">
