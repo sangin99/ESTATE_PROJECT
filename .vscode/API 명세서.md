@@ -633,13 +633,16 @@ Q&A 게시물과 관련된 REST API 모듈
 
 | name | description | required |
 |---|:---:|:---:|
-| Authorization | 인증에 사용될 Bearer 토큰 | O |
+| title | String | Q&A 제목 | O |
+| conte | String | 사용자의 비밀번호 | O |
 
 ###### Example
 
 ```bash
-curl -v -X GET "http://localhost:4000/api/v1/user/" \
+curl -v -X POST "http://localhost:4000/api/v1/board/" \
  -H "Authorization: Bearer {JWT}"
+ -d "title={title}" \
+ -d "contents={contents}
 ```
 
 ##### Response
@@ -650,14 +653,12 @@ curl -v -X GET "http://localhost:4000/api/v1/user/" \
 |---|:---:|:---:|
 | Content-Type | 반환하는 Response Body의 Content Type (application/json) | O |
 
-###### Response Body
+###### Request Body
 
 | name | type | description | required |
 |---|:---:|:---:|:---:|
-| code | String | 사용자의 아이디 | O |
-| message | String | 사용자의 비밀번호 | O |
-| userId | String | 사용자의 아이디 | O |
-| userRole | String | 사용자의 권한 | O |
+| title | String | Q&A 제목 | O |
+| conte | String | 사용자의 비밀번호 | O |
 
 ###### Example
 
@@ -670,6 +671,15 @@ Content-Type: application/json;charset=UTF-8
   "message": "Success.",
   "userId": "${userId}",
   "userRole": "${userRole}"
+}
+```
+**응답 : 실패 (데이터 유효성 검사 실패)**
+```bash
+HTTP/1.1 400 Bed Request
+Content-Type: application/json;charset=UTF-8
+{
+  "code": "VF",
+  "message": "Validation Failed."
 }
 ```
 
