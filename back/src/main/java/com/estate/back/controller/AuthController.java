@@ -6,13 +6,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.estate.back.dto.reponse.ResponseDto;
-import com.estate.back.dto.reponse.auth.SignInResponseDto;
 import com.estate.back.dto.request.auth.SignInRequestDto;
 import com.estate.back.dto.request.auth.EmailAuthCheckRequestDto;
 import com.estate.back.dto.request.auth.EmailAuthRequestDto;
 import com.estate.back.dto.request.auth.IdCheckRequestDto;
 import com.estate.back.dto.request.auth.SignUpRequestDto;
+import com.estate.back.dto.response.ResponseDto;
+import com.estate.back.dto.response.auth.SignInResponseDto;
 import com.estate.back.service.AuthService;
 
 import jakarta.validation.Valid;

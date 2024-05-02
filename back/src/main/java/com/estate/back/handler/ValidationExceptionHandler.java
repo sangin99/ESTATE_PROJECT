@@ -6,7 +6,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.estate.back.dto.reponse.ResponseDto;
+import com.estate.back.dto.response.ResponseDto;
 
 // Request 의 데이터 유효성 검사에서 발생하는 예외 처리 (Controller 작업 중 발생하는 예외 처리)
 

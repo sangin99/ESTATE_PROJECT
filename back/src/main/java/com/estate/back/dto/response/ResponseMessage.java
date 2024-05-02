@@ -1,4 +1,4 @@
-package com.estate.back.dto.reponse;
+package com.estate.back.dto.response;
 
 // 200 성공 : SU / Success.
 // 400 필수 데이터 미입력 : VF / Validation Failed.

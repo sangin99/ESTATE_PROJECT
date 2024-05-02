@@ -1,4 +1,4 @@
-package com.estate.back.dto.reponse;
+package com.estate.back.dto.response;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

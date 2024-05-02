@@ -3,8 +3,8 @@ package com.estate.back.service.implementation;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.estate.back.dto.reponse.ResponseDto;
 import com.estate.back.dto.request.board.PostBoardRequestDto;
+import com.estate.back.dto.response.ResponseDto;
 import com.estate.back.entity.BoardEntity;
 import com.estate.back.repository.BoardRepository;
 import com.estate.back.repository.UserRepository;

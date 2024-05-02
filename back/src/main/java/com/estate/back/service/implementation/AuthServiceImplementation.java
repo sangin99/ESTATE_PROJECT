@@ -7,13 +7,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.estate.back.common.util.EmailAuthNumberUtil;
-import com.estate.back.dto.reponse.ResponseDto;
-import com.estate.back.dto.reponse.auth.SignInResponseDto;
 import com.estate.back.dto.request.auth.EmailAuthCheckRequestDto;
 import com.estate.back.dto.request.auth.EmailAuthRequestDto;
 import com.estate.back.dto.request.auth.IdCheckRequestDto;
 import com.estate.back.dto.request.auth.SignInRequestDto;
 import com.estate.back.dto.request.auth.SignUpRequestDto;
+import com.estate.back.dto.response.ResponseDto;
+import com.estate.back.dto.response.auth.SignInResponseDto;
 import com.estate.back.entity.EmailAuthNumberEntity;
 import com.estate.back.entity.UserEntity;
 import com.estate.back.provider.JwtProvider;
