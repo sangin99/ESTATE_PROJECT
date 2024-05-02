@@ -21,7 +21,7 @@ public class BoardListItem {
     private BoardListItem(BoardEntity boardEntity) throws Exception {
         
         //* this.writeDatetime = `writeDatetime`; 작업
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date datetime = simpleDateFormat.parse(boardEntity.getWriteDatetime());
         simpleDateFormat = new SimpleDateFormat("yy.MM.dd");
         String writeDatetime = simpleDateFormat.format(datetime);
