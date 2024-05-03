@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { ChangeEvent, useEffect, useState } from 'react'
 import './style.css'
 import { useUserStore } from 'src/stores';
 import { useNavigate } from 'react-router';
 import { AUTH_ABSOLUTE_PATH, COUNT_PER_PAGE, COUNT_PER_SECTION, QNA_DETAIL_ABSOLUTE_PATH, QNA_WRITE_ABSOLUTE_PATH } from 'src/constant';
 import { BoardListItem } from 'src/types';
-import { getBoardListRequest } from 'src/apis/board';
+import { getBoardListRequest, getSearchBoardListRequest } from 'src/apis/board';
 import { useCookies } from 'react-cookie';
-import { GetBoardListResponseDto } from 'src/apis/board/dto/response';
+import { GetBoardListResponseDto, GetSearchBoardListResponseDto } from 'src/apis/board/dto/response';
 import ResponseDto from 'src/apis/response.dto';
 
 //                    component                    //
@@ -60,30 +60,43 @@ export default function QnaList() {
   const [currentSection, setCurrentSection] = useState<number>(1);
   const [isToggleOn, setToggleOn] = useState<boolean>(false);
 
+  const [searchWord, setSearchWord] = useState<String>('');
+
   //                    function                    //
   const navigator = useNavigate();
 
-  const changePage = (boardList: BoardListItem[]) => {
+  const changePage = (boardList: BoardListItem[], totalLength: number) => {
     const startIndex = (currentPage -1) * COUNT_PER_PAGE;
     let endIndex = currentPage * COUNT_PER_PAGE;
-    if (endIndex < totalLength -1) endIndex = totalLength; 
+    if (endIndex > totalLength -1) endIndex = totalLength; 
     const viewList = boardList.slice(startIndex, endIndex);
     setViewList(viewList);
   };
 
-  const changeSection = () => {
-    const startIndex = (currentPage -1) * COUNT_PER_PAGE;
-    let endIndex = currentPage * COUNT_PER_PAGE;
-    if (endIndex < totalLength -1) endIndex = totalLength; 
-    const viewList = boardList.slice(startIndex, endIndex);
-    setViewList(viewList);
-
-    const startPage = (currentSection * COUNT_PER_SECTION) - (COUNT_PER_SECTION -1);
+  const changeSection = (totalPage: number) => {
+    const startPage = (currentSection * COUNT_PER_SECTION) - (COUNT_PER_SECTION - 1);
     let endPage = currentSection * COUNT_PER_SECTION;
     if (endPage > totalPage) endPage = totalPage;
     const pageList: number[] = [];
     for (let page = startPage; page <= endPage; page++) pageList.push(page);
     setPageList(pageList);
+    };
+
+  const changeBoardList = (boardList: BoardListItem[]) => {
+    setBoardList(boardList);
+
+    const totalLength = boardList.length;    // 지역이 totalLength 를 가리킨다.
+    setTotalLength(totalLength);
+
+    const totalPage = Math.floor((totalLength -1) / COUNT_PER_PAGE) +1;
+    setTotalPage(totalPage);
+
+    const totalSection = Math.floor((totalPage - 1) / COUNT_PER_SECTION) +1;
+    setTotalSection(totalSection);
+
+    changePage(boardList, totalLength);
+
+    changeSection(totalPage); 
   }
 
 const getBoardListResponse = (result: GetBoardListResponseDto | ResponseDto | null) => 
@@ -101,21 +114,29 @@ const getBoardListResponse = (result: GetBoardListResponseDto | ResponseDto | nu
     }
 
     const { boardList } = result as GetBoardListResponseDto;
-    setBoardList(boardList);
-
-    const totalLength = boardList.length;    // 지역이 totalLength 를 가리킨다.
-    setTotalLength(boardList.length);
-
-    const totalPage = Math.floor((totalLength -1) / COUNT_PER_PAGE) +1;
-    setTotalPage(totalPage);
-
-    const totalSection = Math.floor((totalPage - 1) / COUNT_PER_SECTION) +1;
-    setTotalSection(totalSection);
-
-    changePage(boardList);
-
-    changeSection();
+    changeBoardList(boardList);
 };
+
+  const getSearchBoardListResponse = (result: GetSearchBoardListResponseDto | ResponseDto | null) => {
+
+    const message =
+        !result ? '서버에 문제가 있습니다.' :
+        result.code === 'VF' ? '검색어를 입력하세요.' :
+        result.code === 'AF' ? '인증에 실패했습니다.' :
+        result.code === 'DBE' ? '서버에 문제가 있습니다.' :
+        '';
+
+    if (!result || result.code !== 'SU') {
+      alert(message);
+      if (result?.code === 'AF') navigator(AUTH_ABSOLUTE_PATH);
+      return;
+    }
+
+    const { boardList } = result as GetSearchBoardListResponseDto;
+    changeBoardList(boardList);
+    setCurrentPage(1);
+    setCurrentSection(1);    
+  };
 
   //                    event handler                    //
   const onWriteButtonClickHandler = () => {
@@ -143,6 +164,19 @@ const getBoardListResponse = (result: GetBoardListResponseDto | ResponseDto | nu
     setCurrentSection(currentSection + 1);
     setCurrentPage(currentSection * COUNT_PER_SECTION + 1);
   };
+
+  const onSearchWordChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    const searchWord = event.target.value;
+    setSearchWord(searchWord);
+  };
+
+  const onSearchButtonClickHandler = () => {
+    if (!searchWord) return;
+    if (!cookies.accessToken) return;
+
+    getSearchBoardListRequest(searchWord, cookies.accessToken).then(getSearchBoardListResponse);
+  };
+
   //                    effect                     //
   useEffect(() => {
     if (!cookies.accessToken) return;
@@ -151,15 +185,17 @@ const getBoardListResponse = (result: GetBoardListResponseDto | ResponseDto | nu
 
   useEffect(() => {
     if (!boardList.length) return;
-    changePage(boardList);
+    changePage(boardList, totalLength);
   }, [currentPage]);
 
   useEffect(() => {
-
-  });
+    if (!boardList.length) return;
+    changeSection(totalPage);
+}, [currentSection]);
 
   //                    render                    //
-  const toggleClass = isToggleOn ? 'toggle-active':'toggle'
+  const toggleClass = isToggleOn ? 'toggle-active':'toggle';
+  const searchButtonClass = searchWord ? 'primary-button' : 
   return (
     <div id='qna-list-wrapper'>
       <div className='qna-list-top'>
@@ -201,9 +237,9 @@ const getBoardListResponse = (result: GetBoardListResponseDto | ResponseDto | nu
         </div>
         <div className='qna-list-search-box'>
           <div className='qna-list-search-input-box'>
-            <input className='qna-list-search-input' />
+            <input className='qna-list-search-input' placeholder='검색어를 입력하세요.' value={searchWord} onChange={onSearchWordChangeHandler} />
           </div>
-          <div className='disable-button'>검색</div>
+          <div className={searchButtonClass} onClick={onSearchButtonClickHandler}>검색</div>
         </div>
       </div>
     </div>
