@@ -837,7 +837,7 @@ Content-Type: application/json;charset=UTF-8
 ###### Example
 
 ```bash
-curl -v -X GET "http://localhost:4000/api/v1/board/list/${searchWord}" \
+curl -v -X GET "http://localhost:4000/api/v1/board/list/{searchWord}" \
  -H "Authorization: Bearer {JWT}"
 ```
 
