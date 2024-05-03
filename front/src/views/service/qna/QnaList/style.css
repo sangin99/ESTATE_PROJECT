@@ -91,14 +91,14 @@
 }
 
 .qna-list-table-title {
-    width: 349;
+    width: 349px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
 
 .qna-list-table-write-id {
-    width: 67;
+    width: 67px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
