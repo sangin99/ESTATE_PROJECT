@@ -37,5 +37,5 @@ public class BoardController {
         ResponseEntity<? super GetBoardListResponseDto> response = boardService.getBoardList();
         return response;
     }
- 
+
 }
