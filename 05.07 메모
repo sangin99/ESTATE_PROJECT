@@ -1,0 +1,9 @@
+back/BoardServiceImplementation/ 
+
+- 유효성 검사 
+(receptionNumber)
+
+- 데이터에비스의 Board 테이블에서 receptionNumber에 해당하는 레크드 조회
+SELECT *
+FROM board
+WHERE reception_number = :receptionNumber;
