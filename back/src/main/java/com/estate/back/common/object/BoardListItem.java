@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 import java.text.SimpleDateFormat;
 
+import com.estate.back.common.util.ChangeDateFormatUtil;
 import com.estate.back.entity.BoardEntity;
 
 import lombok.Getter;
@@ -21,10 +22,7 @@ public class BoardListItem {
     private BoardListItem(BoardEntity boardEntity) throws Exception {
         
         //* this.writeDatetime = `writeDatetime`; 작업
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date datetime = simpleDateFormat.parse(boardEntity.getWriteDatetime());
-        simpleDateFormat = new SimpleDateFormat("yy.MM.dd");
-        String writeDatetime = simpleDateFormat.format(datetime);
+        String writeDatetime = ChangeDateFormatUtil.changeYYMMDD(boardEntity.getWriteDatetime());
 
         //* this.writerId = `writerId`; 작업
         String writerId = boardEntity.getWriterId();
