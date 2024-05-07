@@ -79,8 +79,8 @@ public ResponseEntity<? super GetBoardResponseDto> getBoard(int receptionNumber)
         BoardEntity boardEntity = boardRepository.findByReceptionNumber(receptionNumber);
         if (boardEntity == null) return ResponseDto.noExistBoard();
 
-        boardEntity.increaseViewCount();
-        boardRepository.save(boardEntity);    // 1증가 된 게 데이터베이스에 save 된다.
+        // boardEntity.increaseViewCount();
+        // boardRepository.save(boardEntity);    // 1증가 된 게 데이터베이스에 save 된다.
 
         return GetBoardResponseDto.success(boardEntity);
 
@@ -88,6 +88,24 @@ public ResponseEntity<? super GetBoardResponseDto> getBoard(int receptionNumber)
         exception.printStackTrace();
         return ResponseDto.databaseError();
     }
+}
+
+@Override
+public ResponseEntity<ResponseDto> increaseViewCount(int receptionNumber) {
+	try {
+
+        BoardEntity boardEntity = boardRepository.findByReceptionNumber(receptionNumber);
+        if (boardEntity == null) return ResponseDto.noExistBoard();
+
+        boardEntity.increaseViewCount();
+        boardRepository.save(boardEntity);
+
+    } catch (Exception exception) {
+        exception.printStackTrace();
+        return ResponseDto.databaseError();
+    }
+
+    return ResponseDto.success();
 }
     
 }

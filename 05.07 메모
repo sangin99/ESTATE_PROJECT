@@ -7,3 +7,16 @@ back/BoardServiceImplementation/
 SELECT *
 FROM board
 WHERE reception_number = :receptionNumber;
+
+
+
+GET http://localhost:4000/api/v1/board/1
+= AF,NB 반환
+= 정상적으로 반환 확인
+
+PATCH http://localhost:4000/api/v1/board/1/increase-view-count
+= AF,NB 반환
+= 정상적으로 반환 확인
+
+GET http://localhost:4000/api/v1/board/1
+= 조회수 증가 확인
