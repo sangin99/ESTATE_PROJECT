@@ -51,4 +51,9 @@ public class BoardEntity {
     public void increaseViewCount() {
         this.viewCount++;
     }
+
+    public void save(BoardEntity boardEntity) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'save'");
+    }
 }
