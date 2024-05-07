@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './style.css'
 import { useUserStore } from 'src/stores'
 
@@ -6,6 +6,13 @@ import { useUserStore } from 'src/stores'
 export default function QnaDetail() {
   //                 state                 //
   const { loginUserId, loginUserRole } = useUserStore();
+  const [title, setTitle] = useState<string>('');
+  const [writerId, setWriterId] = useState<string>('');
+  const [writeDate, setWriteDate] = useState<string>('');
+  const [viewCount, setViewCount] = useState<number>(0);
+  const [contents, setContents] = useState<string>('');
+  const [status, setStatus] = useState<boolean>(false);
+  const [comment, setComment] = useState<string | null>(null);
   
   //                 render                 //
   return (
@@ -23,7 +30,7 @@ export default function QnaDetail() {
         </div>
         <div className='qna-detail-contents-box'>내용입니다.</div>
       </div>
-      {loginUserRole === 'ROLE_ADMIN' &&
+      {loginUserRole === 'ROLE_ADMIN' && !status &&
       <div className='qna-detail-comment-write-box'>
         <div className='qna-detail-comment-textarea-box'>
           <textarea className='qna-detail-comment-textarea' placeholder='답글을 작성해주세요.' />
@@ -31,13 +38,15 @@ export default function QnaDetail() {
         <div className='primary-button'>답변 달기</div>
       </div>
       }
+      {status &&
       <div className='qna-detail-comment-box'>
         <div className='primary-badge'>답변</div>
         <div className='qna-detail-comment'>답변입니다.</div>
       </div>
+      }
       <div className='qna-detail-button-box'>
         <div className='primary-button'>목록보기</div>
-        {loginUserId === ''&&
+        {loginUserId === writerId &&
         <div className='qna-detail-owner-button-box'>
           <div className='second-button'>수정</div>
           <div className='error-button'>삭제</div>
