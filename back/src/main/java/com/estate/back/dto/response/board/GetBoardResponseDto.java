@@ -17,7 +17,7 @@ public class GetBoardResponseDto extends ResponseDto {
     private boolean status;
     private String title;
     private String writerId;
-    private String writeDateTime;
+    private String writeDatetime;
     private Integer viewCount;
     private String contents;
     private String comment;
@@ -30,7 +30,7 @@ public class GetBoardResponseDto extends ResponseDto {
         this.status = boardEntity.getStatus();
         this.title = boardEntity.getTitle();
         this.writerId = boardEntity.getWriterId();
-        this.writeDateTime = writeDatetime;
+        this.writeDatetime = writeDatetime;
         this.viewCount = boardEntity.getViewCount();
         this.contents = boardEntity.getContents();
         this.comment = boardEntity.getComment();

@@ -14,7 +14,7 @@ export interface GetBoardResponseDto extends ResponseDto {
     status: boolean;
     title: string;
     writerId: string;
-    writeDatetime: String;
+    writeDatetime: string;
     viewCount: number;
     contents: string;
     comment: string | null;  // 속성은 존재하나, 내용은 필수 아니다.
