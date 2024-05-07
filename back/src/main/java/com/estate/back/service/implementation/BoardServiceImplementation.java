@@ -77,6 +77,7 @@ public ResponseEntity<? super GetBoardResponseDto> getBoard(int receptionNumber)
     try {
 
         BoardEntity boardEntity = boardRepository.findByReceptionNumber(receptionNumber);
+        if (boardEntity == null) return ResponseDto.noExistBoard();
 
         return GetBoardResponseDto.success(boardEntity);
 
