@@ -60,7 +60,7 @@ export default function QnaList() {
   const [currentSection, setCurrentSection] = useState<number>(1);
   const [isToggleOn, setToggleOn] = useState<boolean>(false);
 
-  const [searchWord, setSearchWord] = useState<String>('');
+  const [searchWord, setSearchWord] = useState<string>('');
 
   //                    function                    //
   const navigator = useNavigate();
@@ -195,7 +195,7 @@ const getBoardListResponse = (result: GetBoardListResponseDto | ResponseDto | nu
 
   //                    render                    //
   const toggleClass = isToggleOn ? 'toggle-active':'toggle';
-  const searchButtonClass = searchWord ? 'primary-button' : 
+  const searchButtonClass = searchWord ? 'primary-button' : 'disable-button' ; 
   return (
     <div id='qna-list-wrapper'>
       <div className='qna-list-top'>
