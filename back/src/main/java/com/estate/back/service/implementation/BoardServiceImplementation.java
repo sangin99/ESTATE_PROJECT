@@ -79,6 +79,9 @@ public ResponseEntity<? super GetBoardResponseDto> getBoard(int receptionNumber)
         BoardEntity boardEntity = boardRepository.findByReceptionNumber(receptionNumber);
         if (boardEntity == null) return ResponseDto.noExistBoard();
 
+        boardEntity.increaseViewCount();
+        boardRepository.save(boardEntity);    // 1증가 된 게 데이터베이스에 save 된다.
+
         return GetBoardResponseDto.success(boardEntity);
 
     } catch (Exception exception) {
