@@ -84,7 +84,7 @@ export default function QnaDetail() {
   }, []);
 
   //                 render                 //
-  const covedWriterId = writerId[0] + '*'.repeat(writerId.length -1);    // k****** 처리 하기
+  const covedWriterId = writerId !== '' && (writerId[0] + '*'.repeat(writerId.length - 1));    // k****** 처리 하기
   return (
     <div id='qna-detail-wrapper'>
       <div className='qna-detail-main-box'>
