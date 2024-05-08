@@ -145,7 +145,7 @@ export default function QnaDetail() {
       {loginUserRole === 'ROLE_ADMIN' && !status &&
       <div className='qna-detail-comment-write-box'>
         <div className='qna-detail-comment-textarea-box'>
-          <textarea ref={commentRef} className='qna-detail-comment-textarea' placeholder='답글을 작성해주세요.' value={comment == null ? '' : comment} onChange={onCommentChangeHandler} />
+          <textarea rows={1} className='qna-detail-comment-textarea' placeholder='답글을 작성해주세요.' value={comment == null ? '' : comment} onChange={onCommentChangeHandler} />
         </div>
         <div className='primary-button' onClick={onCommentSubmitClickHandler}>답글 달기</div>
       </div>
