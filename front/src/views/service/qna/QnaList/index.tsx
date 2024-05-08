@@ -27,7 +27,7 @@ function ListItem ({
 
   //                    render                    //
   return (
-    <div className='qna-list-table-tr'>
+    <div className='qna-list-table-tr' onClick={onClickHandler}>
             <div className='qna-list-table-reception-number'>{receptionNumber}</div>
               <div className='qna-list-table-status'>
                 {status ?
