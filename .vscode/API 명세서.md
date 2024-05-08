@@ -1270,7 +1270,7 @@ Content-Type: application/json;charset=UTF-8
 
 ###### Example
 ```bash
-curl -v -X POST "http://localhost:4000/api/v1/board/${receptionNumber}" \
+curl -v -X DELETE "http://localhost:4000/api/v1/board/${receptionNumber}" \
  -H "Authorization: Bearer {JWT}"
 ```
 ##### Response
