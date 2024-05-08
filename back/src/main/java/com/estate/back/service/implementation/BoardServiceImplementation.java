@@ -25,15 +25,14 @@ public class BoardServiceImplementation implements BoardService {
     private final BoardRepository boardRepository;
     private final UserRepository userRepository;
 
-    @Override
-    public ResponseEntity<ResponseDto> postBoard(PostBoardRequestDto dto, String userId) {
-        
+@Override
+public ResponseEntity<ResponseDto> postBoard(PostBoardRequestDto dto, String userId) {
         try {
-            // 1
+        // 1
             boolean isExistUser = userRepository.existsByUserId(userId);
             if (!isExistUser) return ResponseDto.authenticationFailed();
 
-            // 2
+        // 2
             BoardEntity boardEntity = new BoardEntity(dto, userId);
             boardRepository.save(boardEntity);
 
@@ -41,7 +40,6 @@ public class BoardServiceImplementation implements BoardService {
             exception.printStackTrace();
             return ResponseDto.databaseError();
         }
-
         return ResponseDto.success();
     }
 
@@ -124,6 +122,26 @@ public ResponseEntity<ResponseDto> postComment(PostCommentRequestDto dto, int re
         boardEntity.setComment(comment);
 
         boardRepository.save(boardEntity);
+
+    } catch (Exception exception) {
+        exception.printStackTrace();
+        return ResponseDto.databaseError();
+    }
+    return ResponseDto.success();
+}
+
+@Override
+public ResponseEntity<ResponseDto> deleteBoard(int receptionNumber, String userId) {
+    try {
+
+        BoardEntity boardEntity = boardRepository.findByReceptionNumber(receptionNumber);
+        if(boardEntity == null) return ResponseDto.noExistBoard();
+
+        String writerId = boardEntity.getWriterId();
+        boolean isWriter = userId.equals(writerId);
+        if (!isWriter) return ResponseDto.authorizationFailed();
+
+        boardRepository.delete(boardEntity);
 
     } catch (Exception exception) {
         exception.printStackTrace();

@@ -11,10 +11,15 @@ import com.estate.back.dto.response.board.GetSearchBoardListResponseDto;
 
 public interface BoardService {
     
+    // C
     ResponseEntity<ResponseDto> postBoard(PostBoardRequestDto dto, String userId);
     ResponseEntity<ResponseDto> postComment(PostCommentRequestDto dto, int receptionNumber);
+    // R
     ResponseEntity<? super GetBoardListResponseDto> getBoardList();
     ResponseEntity<? super GetSearchBoardListResponseDto> getSearchBoardList(String searchWord);
     ResponseEntity<? super GetBoardResponseDto> getBoard(int receptionNumber);
-    ResponseEntity<ResponseDto> increaseViewCount(int receptionNumber);
+    // U
+    ResponseEntity<ResponseDto> increaseViewCount(int receptionNumber);    
+    // D
+    ResponseEntity<ResponseDto> deleteBoard(int receptionNumber, String userId);
 }
