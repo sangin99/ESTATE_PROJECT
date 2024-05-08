@@ -8,7 +8,6 @@ import ResponseDto from 'src/apis/response.dto';
 import { AUTH_ABSOLUTE_PATH, QNA_LIST_ABSOLUTE_PATH, QNA_UPDATE_ABSOLUTE_PATH } from 'src/constant';
 import { GetBoardResponseDto } from 'src/apis/board/dto/response';
 import { PostCommentRequestDto } from 'src/apis/board/dto/request';
-import { Recoverable } from 'repl';
 
 //                 component                 //
 export default function QnaDetail() {
@@ -25,7 +24,6 @@ export default function QnaDetail() {
   const [contents, setContents] = useState<string>('');
   const [status, setStatus] = useState<boolean>(false);
   const [comment, setComment] = useState<string | null>(null);
-
   const [commentRows, setCommentRows] = useState<number>(1);
   
   //                 function                 //
@@ -186,12 +184,12 @@ const onDeleteClickHandler = () => {
       }
       {status &&
       <div className='qna-detail-comment-box'>
-        <div className='primary-badge'>답글</div>
+        <div className='primary-badge'>답변</div>
         <div className='qna-detail-comment'>{comment}</div>
       </div>
       }
       <div className='qna-detail-button-box'>
-        <div className='primary-button'>목록보기</div>
+        <div className='primary-button' onClick={onListClickHandler}>목록보기</div>
         {loginUserId === writerId &&
         <div className='qna-detail-owner-button-box'>
           {!status && <div className='second-button' onClick={onUpdateClickHandler}>수정</div> }

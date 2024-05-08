@@ -1,4 +1,4 @@
-Q&A 게시물 삭제
+Q&A 게시물 삭제 > 
 
 DELETE http://localhost:4000/api/v1/board/10
 
@@ -7,3 +7,15 @@ DELETE http://localhost:4000/api/v1/board/10
 작성자가 아닐때 => 'AF'
 
 성공 => 'SU'
+
+==============================================================
+
+Q&A 게시물 수정 >
+
+PUT http://localhost:4000/api/v1/board/{receptionNumber}
+
+인증 없이 => AF
+리퀘스트 바티 => VF
+존재하지 않는 => NB
+작성자가 아닐 때 => AF
+답글이 달린 상태 => WC
