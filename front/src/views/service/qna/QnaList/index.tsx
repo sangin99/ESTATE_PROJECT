@@ -83,6 +83,8 @@ export default function QnaList() {
     };
 
   const changeBoardList = (boardList: BoardListItem[]) => {
+//                                       .filter((board) => {return !board.status});
+    if (isToggleOn) boardList = boardList.filter(board => !board.status);   // filter : 배열에서 호출하면 콜백함수를 받는다(아이템, 인덱스) _ 반드시 논리 값 반환!    
     setBoardList(boardList);
 
     const totalLength = boardList.length;    // 지역이 totalLength 를 가리킨다.
@@ -115,6 +117,9 @@ const getBoardListResponse = (result: GetBoardListResponseDto | ResponseDto | nu
 
     const { boardList } = result as GetBoardListResponseDto;
     changeBoardList(boardList);
+
+    setCurrentPage(1);
+    setCurrentSection(1);
 };
 
   const getSearchBoardListResponse = (result: GetSearchBoardListResponseDto | ResponseDto | null) => {
@@ -181,7 +186,7 @@ const getBoardListResponse = (result: GetBoardListResponseDto | ResponseDto | nu
   useEffect(() => {
     if (!cookies.accessToken) return;
     getBoardListRequest(cookies.accessToken).then(getBoardListResponse);
-  },[]);
+  },[isToggleOn]);
 
   useEffect(() => {
     if (!boardList.length) return;
