@@ -5,9 +5,10 @@ import { getBoardRequest, increaseViewCountRequest, postCommentRequest } from 's
 import { useCookies } from 'react-cookie';
 import { useNavigate, useParams } from 'react-router';
 import ResponseDto from 'src/apis/response.dto';
-import { AUTH_ABSOLUTE_PATH, QNA_LIST_ABSOLUTE_PATH } from 'src/constant';
+import { AUTH_ABSOLUTE_PATH, QNA_LIST_ABSOLUTE_PATH, QNA_UPDATE_ABSOLUTE_PATH } from 'src/constant';
 import { GetBoardResponseDto } from 'src/apis/board/dto/response';
 import { PostCommentRequestDto } from 'src/apis/board/dto/request';
+import { Recoverable } from 'repl';
 
 //                 component                 //
 export default function QnaDetail() {
@@ -117,6 +118,22 @@ export default function QnaDetail() {
     postCommentRequest(receptionNumber, requestBody, cookies.accessToken).then(postCommentResponse);
 };
 
+const onListClickHandler = () => {     // 목록 버튼
+  navigator(QNA_LIST_ABSOLUTE_PATH);
+};
+
+const onUpdateClickHandler = () => {   // 수정 버튼
+  if (!receptionNumber || loginUserId !== writerId) return;
+  navigator(QNA_UPDATE_ABSOLUTE_PATH(receptionNumber));
+};
+
+const onDeleteClickHandler = () => {
+  if (!receptionNumber || loginUserId !== writerId) return;
+  const isConfirm = window.confirm('정말로 삭제하시겠습니까?');
+  if (!isConfirm) return;
+  alert('삭제')
+};
+
   //                 effect                 //  Increase, GetBoard : API 호출
   useEffect(() => {
     if (!cookies.accessToken || !receptionNumber) return
@@ -158,8 +175,8 @@ export default function QnaDetail() {
         <div className='primary-button'>목록보기</div>
         {loginUserId === writerId &&
         <div className='qna-detail-owner-button-box'>
-          <div className='second-button'>수정</div>
-          <div className='error-button'>삭제</div>
+          <div className='second-button' onClick={onUpdateClickHandler}>수정</div>
+          <div className='error-button' onClick={onDeleteClickHandler}>삭제</div>
         </div>
         }
       </div>
