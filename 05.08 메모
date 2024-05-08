@@ -1,0 +1,9 @@
+Q&A 게시물 삭제
+
+DELETE http://localhost:4000/api/v1/board/10
+
+토큰 없이 => 'AF'
+존재하지않는 게시물 => 'NB'
+작성자가 아닐때 => 'AF'
+
+성공 => 'SU'
