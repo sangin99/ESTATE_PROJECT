@@ -123,7 +123,7 @@ const onListClickHandler = () => {     // 목록 버튼
 };
 
 const onUpdateClickHandler = () => {   // 수정 버튼
-  if (!receptionNumber || loginUserId !== writerId) return;
+  if (!receptionNumber || loginUserId !== writerId || status) return;
   navigator(QNA_UPDATE_ABSOLUTE_PATH(receptionNumber));
 };
 
@@ -175,7 +175,7 @@ const onDeleteClickHandler = () => {
         <div className='primary-button'>목록보기</div>
         {loginUserId === writerId &&
         <div className='qna-detail-owner-button-box'>
-          <div className='second-button' onClick={onUpdateClickHandler}>수정</div>
+          {!status && <div className='second-button' onClick={onUpdateClickHandler}>수정</div> }
           <div className='error-button' onClick={onDeleteClickHandler}>삭제</div>
         </div>
         }
