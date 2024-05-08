@@ -25,7 +25,7 @@ public class CustomExceptionHandler {
         Exception exception
     ) {
         exception.printStackTrace();
-        return ResponseDto.validationFailes();
+        return ResponseDto.validationFailed();
     }
 
     @ExceptionHandler(NoHandlerFoundException.class)
