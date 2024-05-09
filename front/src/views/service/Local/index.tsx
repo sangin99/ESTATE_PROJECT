@@ -1,48 +1,50 @@
 import React from 'react'
 import './style.css'
-import { CategoryScale, Chart as ChartJS, Legend, LineElement, LinearScale, PointElement, Title, Tooltip } from 'chart.js'
-import { Line } from 'react-chartjs-2'
+import SelectBox from 'src/components/SelectBox';
 
-ChartJS.register (
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend
-);
 
-const option = {
-  responsive: true,
-  plugins: {
-    legend: {
-      position: 'top' as const
-    },
-    title: {
-      display: true,
-      text: '라인차트'
-    }
-  }
-}
-
-const data = {
-  labels: [ '1월' , '2월' , '3월' , '4월' , '5월' , '6월'],
-  datasets: [
-    {
-      label: '1번 데이터',
-      data: [555, 150, 216, 674, 200, 114],
-      borderColor: 'rgba(255,0,0,1)',
-      backgroundColor: 'rgba(255,0,0,0.4)'
-    }
-  ]
-}
 
 //                event handler                 //
 export default function Local() {
 
   //                render                 //
   return (
-    <Line options={ option } data={ data } />
+    <div id='local-wrapper'>
+      <div className='local-top'>
+        <div className='local-search-box'>
+          <SelectBox />
+          <div className='primary-button'>검색</div>
+        </div>
+        <div className='local-origin-text'>데이터 출처: KOSIS</div>
+      </div>
+
+      <div className='local-card'>
+        <div className='local-card-title-box'>
+          <div className='local-card-title'>매매 평균</div>
+          <div className='local-card-unit'>(단위: 백만원)</div>
+        </div>
+        <div className='local-card-chart-box'>
+        </div>
+      </div>
+
+      <div className='local-card'>
+        <div className='local-card-title-box'>
+          <div className='local-card-title'>전세 평균</div>
+          <div className='local-card-unit'>(단위: 백만원)</div>
+        </div>
+        <div className='local-card-chart-box'>          
+        </div>
+      </div>
+
+      <div className='local-card'>
+        <div className='local-card-title-box'>
+          <div className='local-card-title'>월세 평균</div>
+          <div className='local-card-unit'>(단위: 백만원)</div>
+        </div>
+        <div className='local-card-chart-box'>          
+        </div>
+      </div>
+    </div>    
   );
+
 }
