@@ -7,3 +7,5 @@ public interface GetLocalDataResultSet {
     Integer getLease();
     Integer getMonthRent();
 }
+
+// 해당하는 속성 값을 JPA 가 스스로 만든다(생성자 , setter) > get'' 을 통해 가져올 수 있다! 
