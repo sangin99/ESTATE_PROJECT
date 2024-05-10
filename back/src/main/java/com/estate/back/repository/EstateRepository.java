@@ -37,7 +37,7 @@ public interface EstateRepository extends JpaRepository<EstateEntity, Integer> {
         "month_rent_ratio85 as 'month_rent_ratio85' " +
     "FROM estate " +
     "WHERE `year_month` BETWEEN '2023-01-01' AND '2023-12-01' " +
-    "AND `local` = :local; " ,
+    "AND `local` = :local " ,
     nativeQuery = true
     )
     List<GetRatioDataResultSet> getRatioData(@Param("local") String local);
