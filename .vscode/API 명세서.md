@@ -1473,7 +1473,7 @@ Content-Type: application/json;charset=UTF-8
 오피스텔 부동산 가격정보와 관련된 REST API 모듈  
 지역 평균 데이터, 비율 관련 데이터 API가 포함되어 있습니다.  
   
-- url : /api/v1/auth  
+- url : /api/v1/estate  
 
 ***
 

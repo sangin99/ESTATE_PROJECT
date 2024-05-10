@@ -40,10 +40,10 @@ public class GetLocalDataResponseDto extends ResponseDto {
             monthRent.add(resultSet.getMonthRent());
         }
 
-        this.yearMonth = null;
-        this.sale = null;
-        this.lease = null;
-        this.monthRent = null;
+        this.yearMonth = yearMonth;
+        this.sale = sale;
+        this.lease = lease;
+        this.monthRent = monthRent;
     }
     
     public static ResponseEntity<GetLocalDataResponseDto> success(List<GetLocalDataResultSet> resultSets) throws Exception {

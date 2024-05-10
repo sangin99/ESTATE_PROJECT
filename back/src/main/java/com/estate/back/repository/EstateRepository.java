@@ -15,10 +15,10 @@ public interface EstateRepository extends JpaRepository<EstateEntity, Integer> {
     
     // DBMS 식을 GetLocalData 형태로 만들기
     @Query (value =   
-    "SELECT `year_mouth` as yearMonth, sale, lease, month_rent as monthRent " +
+    "SELECT `year_month` as yearMonth, sale, lease, month_rent as monthRent " +
     "FROM estate " +
     "WHERE `year_month` BETWEEN '2023-01-01' AND '2023-12-01' " +
-    "AND `local` = :local; ",
+    "AND `local` = :local ",
     nativeQuery = true 
     )
     List<GetLocalDataResultSet> getLocalData(@Param("local") String local);
